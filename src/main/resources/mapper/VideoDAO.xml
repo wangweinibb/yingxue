@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangwei.dao.VideoDAO">
+    <select id="selectById" resultType="video">
+        select *
+        from yx_video
+        where id = #{id}
+    </select>
+
+    <resultMap id="selectAllResultMap" type="video">
+        <id column="video_id" property="id"/>
+        <result column="video_title" property="title"/>
+        <result column="video_description" property="description"/>
+        <result column="video_cover_path" property="cover_path"/>
+        <result column="video_video_path" property="video_path"/>
+        <result column="video_status" property="status"/>
+        <result column="video_create_time" property="create_time"/>
+        <collection property="categorys" javaType="category">
+            <result column="category_id" property="id"/>
+            <result column="category_cateName" property="cateName"/>
+        </collection>
+        <collection property="users" javaType="user">
+            <result column="user_id" property="id"/>
+            <result column="user_username" property="username"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAll" resultMap="selectAllResultMap">
+        SELECT video.id          AS video_id,
+               video.title       AS video_title,
+               video.description AS video_description,
+               video.cover_path  AS video_cover_path,
+               video.video_path  AS video_video_path,
+               video.create_time AS video_create_time,
+               category.id       AS category_id,
+               category.cateName AS category_cateName,
+               user.id           AS user_id,
+               user.username     AS user_username
+        FROM yx_video video
+                 LEFT JOIN yx_category category ON video.category_id = category.id
+                 LEFT JOIN yx_user user
+        ON video.user_id = user.id
+            LIMIT #{num}, #{size}
+    </select>
+
+    <select id="selectByCount" resultType="int">
+        select count(*)
+        from yx_video
+    </select>
+
+    <insert id="insertAll" parameterType="video">
+        insert into yx_video(title, description, cover_path, video_path, status, create_time, category_id, user_id)
+        values (#{title}, #{description}, #{cover_path}, #{video_path}, #{status}, #{create_time}, #{category_id},
+                #{user_id})
+    </insert>
+</mapper>

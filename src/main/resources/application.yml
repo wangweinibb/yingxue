@@ -1,0 +1,19 @@
+# Port
+server:
+ port: 8080
+
+# Datasource
+spring:
+ datasource:
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/wangwei
+  username: wangwei
+  password: wangwei
+ servlet:
+  multipart:
+   max-file-size: 50MB
+   max-request-size: 50MB
+# MyBatis
+mybatis:
+ mapper-locations: classpath:mapper/*.xml
+ type-aliases-package: com.wangwei.entity

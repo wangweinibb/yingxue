@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangwei.dao.CategoryDAO">
+    <select id="selectById" resultType="category">
+        select *
+        from yx_category
+        where id = #{id}
+    </select>
+    <select id="selectByLevels" resultType="category">
+        SELECT *
+        FROM yx_category
+        WHERE levels = #{levels} LIMIT #{num}
+            , #{size}
+    </select>
+    <select id="selectByLevels2" resultType="category">
+        select * from yx_category where levels=#{levels}
+    </select>
+    <select id="selectByParentId" resultType="category">
+        SELECT *
+        FROM yx_category
+        WHERE parentId = #{parentId} and levels=#{levels} LIMIT #{num}
+            , #{size}
+    </select>
+    <select id="selectByParentId2" resultType="category">
+        select * from yx_category where parentId = #{parentId} and levels=#{levels}
+    </select>
+    <select id="selectByCount" resultType="int">
+        select count(*)
+        from yx_category
+        <where>
+            <if test="parentId != null">
+                parentId=#{parentId}
+            </if>
+            <if test="parentId == null">
+                levels=#{levels}
+            </if>
+        </where>
+    </select>
+    <insert id="insertAll" parameterType="category">
+        insert into yx_category (cateName, levels, parentId)
+        values (#{cateName}, #{levels}, #{parentId})
+    </insert>
+    <update id="updateAll" parameterType="category">
+        update yx_category
+        set cateName=#{cateName}
+        where id = #{id}
+    </update>
+    <delete id="deleteAll" parameterType="category">
+        delete
+        from yx_category
+        where id = #{id}
+    </delete>
+    <select id="deleteAll2" resultType="int">
+        select count(*) from yx_category where parentId=#{id}
+    </select>
+</mapper>

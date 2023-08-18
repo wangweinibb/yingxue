@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangwei.dao.LogDAO">
+    <select id="selectById" resultType="log">
+        select *
+        from yx_log
+        where id = #{id}
+    </select>
+    <select id="selectAll" resultType="log">
+        select *
+        from yx_log
+        WHERE create_time BETWEEN #{startTime} AND #{endTime} limit #{num}
+            , #{size}
+    </select>
+    <select id="selectByCount" resultType="int">
+        select count(*) from yx_log
+    </select>
+    <insert id="insertLog" parameterType="log">
+        insert into yx_log (admin_name,create_time,method_name,option_status) values (#{admin_name},#{create_time},#{method_name},#{option_status})
+    </insert>
+</mapper>

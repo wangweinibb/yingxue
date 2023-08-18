@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangwei.dao.AdminDAO">
+    <select id="selectAll" resultType="admin">
+        select *
+        from yx_admin
+    </select>
+    <select id="selectByUsername" resultType="admin">
+        select *
+        from yx_admin
+        where username = #{username}
+    </select>
+    <select id="selectByUsernameAndPassword" resultType="admin">
+        select *
+        from yx_admin
+        where username = #{username}
+          And password = #{password}
+    </select>
+    <select id="selectByPageAndSize" resultType="admin">
+        SELECT *
+        FROM yx_admin
+        ORDER BY id
+            LIMIT #{size} OFFSET #{num};
+    </select>
+    <select id="selectByCount" resultType="int">
+        select count(*) from yx_admin
+    </select>
+    <insert id="insertAdmin" parameterType="admin">
+        insert into yx_admin (username,password,create_time) values (#{username},#{password},#{create_time})
+    </insert>
+    <update id="updateAdmin" parameterType="admin">
+        update yx_admin set password=#{password} where id=#{id}
+    </update>
+    <delete id="delAdmin" parameterType="admin">
+        delete from yx_admin where id=#{id}
+    </delete>
+</mapper>
